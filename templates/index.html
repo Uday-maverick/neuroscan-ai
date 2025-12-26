@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}NeuroScan AI - Research Prototype{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h1>NeuroScan AI</h1>
+        <p class="hero-subtitle">
+            A deep learning system for experimental classification of Alzheimer's disease stages from structural brain MRI.
+        </p>
+        <div class="hero-actions">
+            <a href="/upload" class="btn btn-primary">Analyze MRI</a>
+            <a href="/disclaimer" class="btn btn-secondary">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2>System Overview</h2>
+            </div>
+            <p>
+                This research prototype classifies structural brain MRI scans into four categories 
+                of cognitive impairment severity. The system is designed for research and educational 
+                purposes to explore the application of deep learning in neuroimaging analysis.
+            </p>
+            <p>
+                <strong>What this system does:</strong> Processes T1-weighted structural MRI images and outputs 
+                a predicted classification category with associated confidence scores and model attention visualizations.
+            </p>
+            <p>
+                <strong>What this system does not do:</strong> This system does not provide medical diagnosis, 
+                is not FDA-approved, and should not be used for clinical decision-making or patient care.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Classification Categories</h2>
+            </div>
+            <div class="grid grid-2">
+                {% for key, value in class_names.items() %}
+                <div class="category-card category-{{ loop.index }}">
+                    <h3>{{ value }}</h3>
+                    <p>
+                        {{ class_descriptions.get(value, 'Classification category for MRI analysis.') }}
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="info-block">
+            <p>
+                <strong>Research Use Only:</strong> This system is intended for research and educational purposes. 
+                All outputs are experimental and should not be used for diagnostic or treatment decisions. 
+                Consult qualified healthcare professionals for medical evaluation.
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

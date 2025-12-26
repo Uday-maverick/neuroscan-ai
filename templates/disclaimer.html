@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Disclaimer & Limitations{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container" style="max-width: 800px;">
+        <h1 style="margin-bottom: var(--spacing-xl);">Disclaimer & Limitations</h1>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Not a Medical Device</h2>
+            </div>
+            <p>
+                This system is a research prototype and is not a medical device. It has not been 
+                reviewed or approved by the U.S. Food and Drug Administration (FDA) or any other 
+                regulatory body.
+            </p>
+            <p>
+                This system is not intended for use in the diagnosis, cure, mitigation, treatment, 
+                or prevention of disease or other conditions, or in the cure, mitigation, treatment, 
+                or prevention of disease or other conditions.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Not for Clinical Use</h2>
+            </div>
+            <p>
+                This system is designed and intended for research and educational purposes only. 
+                It should not be used:
+            </p>
+            <ul class="list-unstyled" style="margin-top: var(--spacing-md);">
+                <li class="list-item">As a diagnostic tool</li>
+                <li class="list-item">For clinical decision-making</li>
+                <li class="list-item">For patient care or treatment planning</li>
+                <li class="list-item">In any clinical or healthcare setting</li>
+                <li class="list-item">As a substitute for professional medical evaluation</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>No Clinical Deployment Claims</h2>
+            </div>
+            <p>
+                This system has not been validated for clinical deployment. Performance metrics 
+                reported are based on controlled validation conditions and may not generalize to 
+                real-world clinical environments.
+            </p>
+            <p>
+                The system has not been evaluated for:
+            </p>
+            <ul class="list-unstyled" style="margin-top: var(--spacing-md);">
+                <li class="list-item">Safety in clinical settings</li>
+                <li class="list-item">Effectiveness for patient outcomes</li>
+                <li class="list-item">Compatibility with diverse imaging protocols</li>
+                <li class="list-item">Performance across different scanner types or manufacturers</li>
+                <li class="list-item">Generalization to diverse patient populations</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Limitations</h2>
+            </div>
+            <p>
+                <strong>Dataset Limitations:</strong> The model was trained on a specific dataset 
+                under controlled conditions. Performance may vary significantly with different 
+                imaging protocols, scanner types, or patient populations.
+            </p>
+            <p>
+                <strong>Technical Limitations:</strong> The system processes single 2D images 
+                and does not incorporate 3D volumetric analysis, patient history, or other 
+                clinical context that would be considered in actual diagnostic workflows.
+            </p>
+            <p>
+                <strong>Interpretation Limitations:</strong> Model outputs, including confidence 
+                scores and attention visualizations, reflect model behavior and should not be 
+                interpreted as clinical probabilities or diagnostic indicators.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>User Responsibility</h2>
+            </div>
+            <p>
+                Users of this system acknowledge that:
+            </p>
+            <ul class="list-unstyled" style="margin-top: var(--spacing-md);">
+                <li class="list-item">They understand this is a research tool, not a clinical device</li>
+                <li class="list-item">They will not use outputs for diagnostic or treatment purposes</li>
+                <li class="list-item">They will consult qualified healthcare professionals for medical decisions</li>
+                <li class="list-item">They assume all responsibility for use of this system</li>
+            </ul>
+        </div>
+
+        <div class="info-block" style="border-left-color: var(--color-warning);">
+            <p>
+                <strong>Medical Disclaimer:</strong> Always consult qualified healthcare professionals 
+                and neurologists for proper medical evaluation, diagnosis, and treatment of any 
+                cognitive concerns or suspected neurological conditions.
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Methodology{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container" style="max-width: 900px;">
+        <h1 style="margin-bottom: var(--spacing-xl);">Methodology</h1>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Research Approach</h2>
+            </div>
+            <p>
+                This system employs deep learning techniques to analyze structural brain MRI images 
+                and classify them into categories representing different stages of cognitive impairment.
+            </p>
+            <p>
+                The classification process involves preprocessing MRI images, extracting relevant 
+                features, and generating predictions with associated confidence scores and attention 
+                visualizations.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Classification Process</h2>
+            </div>
+            <p>
+                When an MRI image is uploaded, the system:
+            </p>
+            <ul class="list-unstyled" style="margin-top: var(--spacing-md);">
+                <li class="list-item">Preprocesses the image to standardize format and resolution</li>
+                <li class="list-item">Analyzes the image using trained deep learning models</li>
+                <li class="list-item">Generates classification predictions with confidence scores</li>
+                <li class="list-item">Produces attention visualizations showing model focus areas</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Explainability</h2>
+            </div>
+            <p>
+                The system provides Grad-CAM++ visualizations to help researchers understand which 
+                regions of the input image the model attends to when making classification decisions. 
+                These visualizations are research tools and should not be interpreted as clinical 
+                diagnostic indicators.
+            </p>
+            <p style="margin-top: var(--spacing-md);">
+                For detailed information about the explainability approach, see the 
+                <a href="/explainability" style="color: var(--color-accent-blue); text-decoration: underline;">Explainability</a> page.
+            </p>
+        </div>
+
+        <div class="info-block">
+            <p>
+                <strong>Research Limitations:</strong> This system was developed and validated under 
+                controlled research conditions. Generalization to other datasets, imaging protocols, 
+                or clinical settings has not been established. The system should be considered a 
+                research prototype and not a validated clinical tool.
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

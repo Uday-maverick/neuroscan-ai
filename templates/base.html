@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}NeuroScan AI{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" onerror="this.style.display='none'">
+                <span>NeuroScan AI</span>
+            </a>
+            <ul class="navbar-nav">
+                <li><a href="/" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">Home</a></li>
+                <li><a href="/upload" class="nav-link {% if request.endpoint == 'upload_file' %}active{% endif %}">Analyze MRI</a></li>
+                <li><a href="/disclaimer" class="nav-link {% if request.endpoint == 'disclaimer' %}active{% endif %}">Disclaimer</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>NeuroScan AI (Research Prototype)</p>
+            <p>For research and educational purposes only. Not for clinical use.</p>
+            <p class="developer-credits">Developed by Uday Islam & Kritanu Chattopadhyay</p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

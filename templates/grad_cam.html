@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Grad-CAM Visualization{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container" style="max-width: 1000px;">
+        <h1 style="margin-bottom: var(--spacing-lg);">Model Attention Visualization</h1>
+
+        {% if error %}
+        <div class="card">
+            <p style="color: var(--color-text-secondary);">{{ error }}</p>
+            <a href="/upload" class="btn btn-primary" style="margin-top: var(--spacing-md);">Upload MRI Scan</a>
+        </div>
+        {% else %}
+        <div class="card">
+            <div class="card-header">
+                <h2>Classification Result</h2>
+            </div>
+            <p>
+                <strong>Predicted Class:</strong> {{ prediction }}<br>
+                <strong>Model Confidence:</strong> {{ "%.1f"|format(confidence * 100) }}%
+            </p>
+        </div>
+
+        {% if gradcam_img %}
+        <div class="card">
+            <div class="card-header">
+                <h2>Grad-CAM++ Heatmap</h2>
+            </div>
+            <p style="color: var(--color-text-secondary); margin-bottom: var(--spacing-md);">
+                This visualization indicates which image regions the model attended to when making 
+                this classification. Warmer colors (red/yellow) indicate higher model attention.
+            </p>
+            <img src="data:image/png;base64,{{ gradcam_img }}" alt="Grad-CAM++ Visualization" class="viz-image">
+            <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-top: var(--spacing-sm);">
+                <strong>Interpretation Note:</strong> Highlighted regions represent model attention 
+                patterns, not necessarily clinically significant anatomical features. This visualization 
+                is for research purposes only and should not be interpreted as clinical pathology.
+            </p>
+        </div>
+        {% endif %}
+
+        {% if probability_plot %}
+        <div class="card">
+            <div class="card-header">
+                <h2>Probability Distribution</h2>
+            </div>
+            <img src="data:image/png;base64,{{ probability_plot }}" alt="Probability Distribution" class="viz-image">
+        </div>
+        {% endif %}
+
+        <div class="info-block">
+            <p>
+                For detailed information about Grad-CAM++ and its limitations, see the 
+                <a href="/explainability" style="color: var(--color-accent-blue);">Explainability</a> page.
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: var(--spacing-xl);">
+            <a href="/upload" class="btn btn-primary">Analyze Another Scan</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

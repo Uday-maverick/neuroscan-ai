@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Explainability - Grad-CAM++{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container" style="max-width: 900px;">
+        <h1 style="margin-bottom: var(--spacing-xl);">Model Explainability</h1>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Grad-CAM++ Overview</h2>
+            </div>
+            <p>
+                This system uses Grad-CAM++ (Gradient-weighted Class Activation Mapping Plus Plus) 
+                to visualize which regions of the input MRI image the model attends to when making 
+                classification decisions.
+            </p>
+            <p>
+                <strong>What Grad-CAM++ shows:</strong> A heatmap overlay indicating spatial regions 
+                where the model's gradients are strongest for the predicted class. Warmer colors 
+                (red/yellow) indicate higher model attention.
+            </p>
+            <p>
+                <strong>What Grad-CAM++ does not show:</strong> Clinical pathology, disease markers, 
+                or anatomically significant features. The visualization reflects model behavior, 
+                not medical interpretation.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Technical Details</h2>
+            </div>
+            <p>
+                Grad-CAM++ computes weighted activation maps by:
+            </p>
+            <ol style="padding-left: var(--spacing-lg); line-height: 2;">
+                <li>Extracting feature maps from the final convolutional layer of the model</li>
+                <li>Computing gradients of the target class score with respect to these feature maps</li>
+                <li>Applying a weighted combination to generate spatial attention maps</li>
+                <li>Overlaying the attention map on the original image as a heatmap</li>
+            </ol>
+            <p style="margin-top: var(--spacing-md);">
+                The implementation follows the methodology described in 
+                "Grad-CAM++: Improved Visual Explanations for Deep Convolutional Networks" 
+                (Chattopadhyay et al., 2018).
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Interpretation Guidelines</h2>
+            </div>
+            <p>
+                <strong>For Researchers:</strong> Grad-CAM++ visualizations can help identify whether 
+                the model is attending to anatomically plausible regions (e.g., hippocampus, cortical 
+                areas) versus spurious correlations or artifacts.
+            </p>
+            <p>
+                <strong>Limitations:</strong>
+            </p>
+            <ul class="list-unstyled" style="margin-top: var(--spacing-md);">
+                <li class="list-item">Visualizations show model attention, not clinical reasoning</li>
+                <li class="list-item">Highlighted regions may not correspond to known disease markers</li>
+                <li class="list-item">The model may attend to image artifacts or preprocessing effects</li>
+                <li class="list-item">Attention patterns do not validate clinical accuracy</li>
+                <li class="list-item">Visualizations are post-hoc explanations, not causal explanations</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Clinical Context</h2>
+            </div>
+            <p>
+                <strong>Important:</strong> Grad-CAM++ visualizations are research tools for understanding 
+                model behavior. They should not be interpreted as:
+            </p>
+            <ul class="list-unstyled" style="margin-top: var(--spacing-md);">
+                <li class="list-item">Clinical diagnostic indicators</li>
+                <li class="list-item">Evidence of disease pathology</li>
+                <li class="list-item">Validated biomarkers</li>
+                <li class="list-item">Substitutes for expert radiological interpretation</li>
+            </ul>
+            <p style="margin-top: var(--spacing-md);">
+                The relationship between model attention patterns and actual clinical significance 
+                requires validation through independent research and should not be assumed.
+            </p>
+        </div>
+
+        <div class="info-block">
+            <p>
+                <strong>Research Use:</strong> These explainability features are provided to support 
+                research into model interpretability and should be evaluated in that context. 
+                Clinical interpretation of these visualizations requires domain expertise and 
+                independent validation.
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+```
+
