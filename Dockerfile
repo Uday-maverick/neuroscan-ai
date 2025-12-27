@@ -24,7 +24,8 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    FLASK_ENV=production
+    FLASK_ENV=production \
+    MPLCONFIGDIR=/tmp/.matplotlib
 
 # Install runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -44,9 +45,9 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 COPY . .
 
 # Create necessary directories with proper permissions
-RUN mkdir -p instance/uploads instance/results models && \
-    chmod -R 755 instance models && \
-    chown -R nobody:nogroup instance
+RUN mkdir -p instance/uploads instance/results models /tmp/.matplotlib && \
+    chmod -R 755 instance models /tmp/.matplotlib && \
+    chown -R nobody:nogroup instance /tmp/.matplotlib
 
 # Switch to non-root user for security
 USER nobody
