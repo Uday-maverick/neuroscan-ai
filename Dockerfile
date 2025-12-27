@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Copy requirements and install Python dependencies
 WORKDIR /app
 COPY requirements.txt .
-RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Production stage
 FROM python:3.11-slim
@@ -28,8 +28,6 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PORT=5000
 
 # Install runtime dependencies
-# Note: libgl1-mesa-glx is deprecated in newer Debian, replaced with libgl1
-# Since we use opencv-python-headless and matplotlib Agg backend, OpenGL is not needed
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libglib2.0-0 \
     libsm6 \
@@ -39,11 +37,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy Python packages from builder
-COPY --from=builder /root/.local /root/.local
-
-# Make sure scripts in .local are usable
-ENV PATH=/root/.local/bin:$PATH
+# Copy Python packages from builder (system-wide installation)
+COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy application files
 COPY . .
@@ -59,12 +55,12 @@ USER nobody
 # Expose port
 EXPOSE 5000
 
-# Health check
+# Health check (using python -m to avoid PATH issues)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:5000/api/health || exit 1
+    CMD python -m gunicorn --check-config || curl -f http://localhost:5000/api/health || exit 1
 
-# Run application with Gunicorn
-CMD ["gunicorn", \
+# Run application with Gunicorn using python -m to ensure it's found
+CMD ["python", "-m", "gunicorn", \
      "--bind", "0.0.0.0:5000", \
      "--workers", "4", \
      "--worker-class", "sync", \
