@@ -24,7 +24,7 @@ NeuroScan AI is a research-grade medical imaging classification system that leve
 
 ## ✨ Features
 
-- 🧠 **Deep Learning Model**: ConvNeXt-based architecture with 96.7% accuracy
+- 🧠 **Deep Learning Model**: ConvNeXt-based architecture with TTA + Ensemble achieving 99.84% accuracy
 - 🔍 **Explainable AI**: Grad-CAM++ heatmaps for model interpretability
 - 📊 **Comprehensive Analysis**: Probability distributions and confidence scores
 - 🏥 **Clinical Insights**: Risk assessment and clinical recommendations
@@ -245,11 +245,15 @@ git push heroku main
 
 ## 📊 Model Performance
 
-- **Accuracy**: 96.7%
-- **Precision**: 96.5%
-- **Recall**: 96.8%
-- **F1-Score**: 96.6%
-- **AUC-ROC**: 99.2%
+- Accuracy: 99.84%
+
+- Precision: 99.85%
+
+- Recall: 99.84%
+
+- F1-Score: 99.84%
+
+- AUC-ROC: 100.0%
 
 ### Per-Class Performance
 
