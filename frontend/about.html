@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - NeuroScan AI</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .about-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 30px;
+        }
+        
+        .about-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .about-section h2 {
+            color: #4a90e2;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .about-section h3 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .model-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-card h4 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        .stat-card p {
+            margin: 10px 0 0 0;
+            font-size: 1rem;
+        }
+        
+        .classes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .class-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4a90e2;
+        }
+        
+        .class-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <a href="index.html" class="navbar-brand">
+                    <i class="fas fa-brain"></i>
+                    NeuroScan AI
+                </a>
+                <ul class="navbar-nav">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="upload.html" class="nav-link">Analyze MRI</a></li>
+                    <li><a href="about.html" class="nav-link active">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="about-container">
+        <h1 style="text-align: center; color: #2c3e50; margin-bottom: 40px;">
+            <i class="fas fa-info-circle"></i> About This System
+        </h1>
+
+        <div class="about-section">
+            <h2><i class="fas fa-cog"></i> Model Information</h2>
+            <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">
+                Our AI-powered classification system uses a state-of-the-art <strong>ConvNeXt Base</strong> 
+                deep learning architecture trained on thousands of MRI brain scans. The model achieves 
+                exceptional accuracy in detecting and classifying different stages of Alzheimer's disease.
+            </p>
+
+            <div class="model-stats">
+                <div class="stat-card">
+                    <h4>96.7%</h4>
+                    <p>Overall Accuracy</p>
+                </div>
+                <div class="stat-card">
+                    <h4>5,124</h4>
+                    <p>Training Samples</p>
+                </div>
+                <div class="stat-card">
+                    <h4>5-Fold</h4>
+                    <p>Cross Validation</p>
+                </div>
+                <div class="stat-card">
+                    <h4>99.84%</h4>
+                    <p>Test Accuracy</p>
+                </div>
+            </div>
+
+            <h3><i class="fas fa-list"></i> Key Features</h3>
+            <ul style="font-size: 1.05rem; line-height: 2; color: #555;">
+                <li><strong>Deep Learning Architecture:</strong> ConvNeXt Base</li>
+                <li><strong>Training Dataset:</strong> 5,124 MRI scans</li>
+                <li><strong>Validation Method:</strong> 5-fold cross-validation</li>
+                <li><strong>Data Augmentation:</strong> Horizontal flip, rotation, brightness/contrast adjustment</li>
+                <li><strong>Ensemble Approach:</strong> TTA + Ensemble</li>
+            </ul>
+        </div>
+
+        <div class="about-section">
+            <h2><i class="fas fa-layer-group"></i> Classification Classes</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 25px; color: #555;">
+                The model classifies MRI scans into four distinct categories representing different 
+                stages of cognitive impairment:
+            </p>
+
+            <div class="classes-grid" id="classesGrid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2><i class="fas fa-laptop-code"></i> Technology Stack</h2>
+            <ul style="font-size: 1.05rem; line-height: 2; color: #555;">
+                <li><strong>Deep Learning:</strong> PyTorch 2.1+ with ConvNeXt architecture</li>
+                <li><strong>Backend:</strong> Flask 3.0 web framework</li>
+                <li><strong>Image Processing:</strong> Albumentations, OpenCV, Pillow</li>
+                <li><strong>Explainability:</strong> Grad-CAM++ visualizations</li>
+                <li><strong>Visualization:</strong> Matplotlib, Seaborn, Plotly</li>
+                <li><strong>Model Library:</strong> timm (PyTorch Image Models)</li>
+            </ul>
+        </div>
+
+        <div class="about-section" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+            <h2><i class="fas fa-exclamation-triangle"></i> Important Disclaimer</h2>
+            <p style="font-size: 1.05rem; line-height: 1.8; color: #856404;">
+                <strong>This tool is designed for research and educational purposes only.</strong> 
+                The predictions made by this AI system should NOT be used as a substitute for 
+                professional medical diagnosis or treatment. Always consult qualified healthcare 
+                professionals and neurologists for proper medical evaluation and diagnosis of 
+                Alzheimer's disease or any cognitive impairment.
+            </p>
+            <p style="font-size: 1rem; margin-top: 15px; color: #856404;">
+                The accuracy metrics presented are based on the validation dataset and may vary 
+                with real-world clinical data. This system is not FDA-approved and should not 
+                be used for clinical decision-making.
+            </p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>NeuroScan AI (Research Prototype)</p>
+            <p>For research and educational purposes only. Not for clinical use.</p>
+            <p class="developer-credits">Developed by Uday Islam & Kritanu Chattopadhyay</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script>
+        // Load class names from API
+        async function loadClassNames() {
+            try {
+                const response = await fetch(window.API_CONFIG.endpoints.classNames);
+                const data = await response.json();
+                
+                const container = document.getElementById('classesGrid');
+                const classNames = data.class_names;
+                
+                for (const [key, value] of Object.entries(classNames)) {
+                    const card = document.createElement('div');
+                    card.className = 'class-card';
+                    card.innerHTML = `
+                        <h4>${value}</h4>
+                        <p style="color: #666; margin: 0;">Class ${key}</p>
+                    `;
+                    container.appendChild(card);
+                }
+            } catch (error) {
+                console.error('Error loading class names:', error);
+                // Fallback
+                const container = document.getElementById('classesGrid');
+                const defaultClasses = ['Mild Impairment', 'Moderate Impairment', 'No Impairment', 'Very Mild Impairment'];
+                defaultClasses.forEach((cls, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'class-card';
+                    card.innerHTML = `
+                        <h4>${cls}</h4>
+                        <p style="color: #666; margin: 0;">Class ${idx}</p>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+        }
+        
+        loadClassNames();
+    </script>
+</body>
+</html>
+

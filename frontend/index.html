@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroScan AI - Research Prototype</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <img src="static/images/logo.png" alt="Logo" onerror="this.style.display='none'">
+                <span>NeuroScan AI</span>
+            </a>
+            <ul class="navbar-nav">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="upload.html" class="nav-link">Analyze MRI</a></li>
+                <li><a href="disclaimer.html" class="nav-link">Disclaimer</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>NeuroScan AI</h1>
+                <p class="hero-subtitle">
+                    A deep learning system for experimental classification of Alzheimer's disease stages from structural brain MRI.
+                </p>
+                <div class="hero-actions">
+                    <a href="upload.html" class="btn btn-primary">Analyze MRI</a>
+                    <a href="disclaimer.html" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>System Overview</h2>
+                    </div>
+                    <p>
+                        This research prototype classifies structural brain MRI scans into four categories 
+                        of cognitive impairment severity. The system is designed for research and educational 
+                        purposes to explore the application of deep learning in neuroimaging analysis.
+                    </p>
+                    <p>
+                        <strong>What this system does:</strong> Processes T1-weighted structural MRI images and outputs 
+                        a predicted classification category with associated confidence scores and model attention visualizations.
+                    </p>
+                    <p>
+                        <strong>What this system does not do:</strong> This system does not provide medical diagnosis, 
+                        is not FDA-approved, and should not be used for clinical decision-making or patient care.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Classification Categories</h2>
+                    </div>
+                    <div class="grid grid-2" id="classCategories">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <p>
+                        <strong>Research Use Only:</strong> This system is intended for research and educational purposes. 
+                        All outputs are experimental and should not be used for diagnostic or treatment decisions. 
+                        Consult qualified healthcare professionals for medical evaluation.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>NeuroScan AI (Research Prototype)</p>
+            <p>For research and educational purposes only. Not for clinical use.</p>
+            <p class="developer-credits">Developed by Uday Islam & Kritanu Chattopadhyay</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script>
+        // Load class names from API
+        async function loadClassNames() {
+            try {
+                const response = await fetch(window.API_CONFIG.endpoints.classNames);
+                const data = await response.json();
+                
+                const container = document.getElementById('classCategories');
+                const classNames = data.class_names;
+                const descriptions = data.class_descriptions;
+                
+                let index = 1;
+                for (const [key, value] of Object.entries(classNames)) {
+                    const card = document.createElement('div');
+                    card.className = `category-card category-${index}`;
+                    card.innerHTML = `
+                        <h3>${value}</h3>
+                        <p>${descriptions[value] || 'Classification category for MRI analysis.'}</p>
+                    `;
+                    container.appendChild(card);
+                    index++;
+                }
+            } catch (error) {
+                console.error('Error loading class names:', error);
+                // Fallback to default classes
+                const container = document.getElementById('classCategories');
+                const defaultClasses = [
+                    { name: 'Mild Impairment', desc: 'Mild cognitive impairment. Noticeable memory problems but still independent.' },
+                    { name: 'Moderate Impairment', desc: 'Moderate dementia. Significant memory loss and cognitive decline affecting daily activities.' },
+                    { name: 'No Impairment', desc: 'Normal brain with no signs of cognitive impairment. Healthy aging pattern.' },
+                    { name: 'Very Mild Impairment', desc: 'Early stage of cognitive decline. Minor memory issues that may not interfere with daily life.' }
+                ];
+                defaultClasses.forEach((cls, idx) => {
+                    const card = document.createElement('div');
+                    card.className = `category-card category-${idx + 1}`;
+                    card.innerHTML = `
+                        <h3>${cls.name}</h3>
+                        <p>${cls.desc}</p>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+        }
+        
+        loadClassNames();
+    </script>
+</body>
+</html>
+

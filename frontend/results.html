@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results - NeuroScan AI</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <img src="static/images/logo.png" alt="Logo" onerror="this.style.display='none'">
+                <span>NeuroScan AI</span>
+            </a>
+            <ul class="navbar-nav">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="upload.html" class="nav-link">Analyze MRI</a></li>
+                <li><a href="disclaimer.html" class="nav-link">Disclaimer</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="section">
+            <div class="container" style="max-width: 1000px;">
+                <div id="resultsContainer">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>NeuroScan AI (Research Prototype)</p>
+            <p>For research and educational purposes only. Not for clinical use.</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script>
+        // Load results from sessionStorage or result_id from URL
+        function loadResults() {
+            const container = document.getElementById('resultsContainer');
+            
+            // Try to get result from sessionStorage first
+            let resultData = sessionStorage.getItem('analysisResult');
+            
+            if (resultData) {
+                try {
+                    resultData = JSON.parse(resultData);
+                    displayResults(resultData);
+                    return;
+                } catch (e) {
+                    console.error('Error parsing stored result:', e);
+                }
+            }
+            
+            // Try to get result_id from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const resultId = urlParams.get('id');
+            
+            if (resultId) {
+                fetch(window.API_CONFIG.endpoints.results(resultId))
+                    .then(response => response.json())
+                    .then(data => displayResults(data))
+                    .catch(error => {
+                        container.innerHTML = `
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2>Error</h2>
+                                </div>
+                                <p>Could not load results. Please try analyzing again.</p>
+                                <a href="upload.html" class="btn btn-primary">Analyze Another Scan</a>
+                            </div>
+                        `;
+                    });
+            } else {
+                container.innerHTML = `
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>No Results Available</h2>
+                        </div>
+                        <p>No analysis results found. Please upload and analyze an MRI scan first.</p>
+                        <a href="upload.html" class="btn btn-primary">Analyze MRI Scan</a>
+                    </div>
+                `;
+            }
+        }
+        
+        function displayResults(data) {
+            const container = document.getElementById('resultsContainer');
+            const confidence = data.confidence / 100; // Convert from percentage
+            const confidencePercent = data.confidence.toFixed(1);
+            
+            let html = `
+                <div class="result-header">
+                    <div class="prediction-label">Predicted Classification</div>
+                    <div class="prediction-value">${data.prediction}</div>
+                    <div class="confidence-score">
+                        Model Confidence: ${confidencePercent}%
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Classification Confidence Distribution</h2>
+                    </div>
+                    <div class="probability-bars">
+            `;
+            
+            // Display probabilities
+            if (data.probabilities) {
+                for (const [className, prob] of Object.entries(data.probabilities)) {
+                    const probPercent = (prob * 100).toFixed(1);
+                    html += `
+                        <div class="probability-item">
+                            <div class="probability-label">
+                                <span>${className}</span>
+                                <span>${probPercent}%</span>
+                            </div>
+                            <div class="probability-bar">
+                                <div class="probability-fill" style="width: ${prob * 100}%;">
+                                    ${probPercent}%
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            // Add Grad-CAM visualization if available
+            if (data.gradcam) {
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Model Attention Visualization</h2>
+                        </div>
+                        <img src="data:image/png;base64,${data.gradcam}" alt="Grad-CAM++ Visualization" class="viz-image">
+                    </div>
+                `;
+            }
+            
+            // Add probability plot if available
+            if (data.probability_plot) {
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Probability Distribution Chart</h2>
+                        </div>
+                        <img src="data:image/png;base64,${data.probability_plot}" alt="Probability Distribution" class="viz-image">
+                    </div>
+                `;
+            }
+            
+            // Add risk factors and recommendations if available
+            if (data.risk_factors) {
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Risk Assessment</h2>
+                        </div>
+                        <p><strong>Risk Level:</strong> ${data.risk_factors.level}</p>
+                        <p><strong>Factors:</strong> ${data.risk_factors.factors.join(', ')}</p>
+                        <p><strong>Next Steps:</strong> ${data.risk_factors.next_steps.join(', ')}</p>
+                    </div>
+                `;
+            }
+            
+            if (data.recommendations && data.recommendations.length > 0) {
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Recommendations</h2>
+                        </div>
+                        <ul class="list-unstyled">
+                `;
+                data.recommendations.forEach(rec => {
+                    html += `<li class="list-item">${rec}</li>`;
+                });
+                html += `
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            html += `
+                <div class="info-block" style="border-left-color: var(--color-warning);">
+                    <p>
+                        <strong>Important:</strong> This analysis is generated by an experimental AI system for 
+                        research purposes only. This is not a medical diagnosis. Consult qualified healthcare 
+                        professionals for proper medical evaluation, diagnosis, and treatment.
+                    </p>
+                </div>
+
+                <div style="text-align: center; margin-top: var(--spacing-xl);">
+                    <a href="upload.html" class="btn btn-primary">Analyze Another Scan</a>
+                    <a href="index.html" class="btn btn-secondary" style="margin-left: var(--spacing-md);">Return Home</a>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        // Load results on page load
+        loadResults();
+    </script>
+</body>
+</html>
+

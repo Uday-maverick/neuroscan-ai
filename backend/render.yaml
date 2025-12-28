@@ -1,0 +1,22 @@
+services:
+  # Backend API Service
+  - type: web
+    name: neuroscan-api
+    env: python
+    region: oregon  # Recommended for better performance
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn api:app --timeout 120 --workers 2 --threads 4 --worker-class gthread --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: MODEL_PATH
+        value: models/best_model.pth
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_ENV
+        value: production
+    healthCheckPath: /api/health
+    disk:
+      name: neuroscan-disk
+      mountPath: /opt/render/project/src/instance/uploads
+      sizeGB: 2

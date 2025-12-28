@@ -1,0 +1,14 @@
+services:
+  # Frontend Static Site
+  - type: static
+    name: neuroscan-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://YOUR-RENDER-APP-NAME.onrender.com  # Update with your actual backend URL
+      - key: VITE_API_URL
+        value: https://YOUR-RENDER-APP-NAME.onrender.com  # Update with your actual backend URL
+      - key: API_URL
+        value: https://YOUR-RENDER-APP-NAME.onrender.com  # Update with your actual backend URL

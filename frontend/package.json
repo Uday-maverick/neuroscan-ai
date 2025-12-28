@@ -1,0 +1,13 @@
+{
+  "name": "neuroscan-frontend",
+  "version": "1.0.0",
+  "description": "Frontend static site for NeuroScan AI",
+  "scripts": {
+    "build": "node build.js",
+    "prebuild": "echo 'Building frontend...'",
+    "start": "http-server -p 3000"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
+

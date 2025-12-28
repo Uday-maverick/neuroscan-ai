@@ -42,6 +42,9 @@ except ImportError:
     HAS_PLOTLY = False
 
 # Import custom utilities with graceful fallback
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
 try:
     from utils.model_loader import load_model, predict_image
 except ImportError as e:
@@ -65,8 +68,8 @@ except ImportError as e:
     def generate_gradcam_plusplus(*args, **kwargs):
         return args[3] if len(args) > 3 else kwargs.get('original_image', None)
 
-# Initialize Flask app
-app = Flask(__name__)
+# Initialize Flask app with correct template and static folders
+app = Flask(__name__, template_folder='../frontend/templates', static_folder='../frontend/static')
 app.secret_key = os.environ.get('SECRET_KEY', 'alzheimer-mri-classification-secret-key-2024')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 CORS(app)
