@@ -11,12 +11,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy requirements and install Python dependencies system-wide
 WORKDIR /app
-COPY requirements.txt constraints.txt fix_opencv.sh ./
-RUN pip install --no-cache-dir --no-warn-script-location \
-    --constraint constraints.txt \
-    -r requirements.txt && \
-    chmod +x fix_opencv.sh && \
-    ./fix_opencv.sh
+COPY requirements.txt ./
+RUN pip install --no-cache-dir --no-warn-script-location -r requirements.txt && \
+    pip uninstall -y opencv-python && \
+    pip install --no-cache-dir opencv-python-headless==4.11.0.86
 
 # Production stage
 FROM python:3.11-slim
@@ -48,10 +46,6 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 # Copy application files
 COPY . .
 
-# Copy and make download script executable
-COPY download_model.sh /app/download_model.sh
-RUN chmod +x /app/download_model.sh
-
 # Create necessary directories with proper permissions
 RUN mkdir -p instance/uploads instance/results models /tmp/.matplotlib && \
     chmod -R 755 instance models /tmp/.matplotlib && \
@@ -67,11 +61,9 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:${PORT:-5000}/api/health || exit 1
 
-# Download model if needed (run as entrypoint)
-# Then start application with Gunicorn
+# Start application with Gunicorn
 # Using 1 worker for free tier (512MB RAM), increase for paid tiers
-CMD /app/download_model.sh && \
-    gunicorn \
+CMD gunicorn \
     --bind 0.0.0.0:${PORT:-5000} \
     --workers 1 \
     --threads 4 \
