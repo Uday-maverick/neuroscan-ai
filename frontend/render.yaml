@@ -12,7 +12,6 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 18
-      # IMPORTANT: Update this with your actual backend URL after deploying backend
-      # Format: https://neuroscan-api.onrender.com (no trailing slash)
+      # Backend API URL (deployed)
       - key: API_URL
-        value: https://neuroscan-api.onrender.com
+        value: https://neuroscan-ai-iobc.onrender.com
