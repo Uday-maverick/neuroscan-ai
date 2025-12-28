@@ -53,7 +53,8 @@ logs/
 .env.*.local
 
 # ML Models (if stored locally)
-*.pth
+# IMPORTANT: best_model.pth is needed for deployment
+# *.pth  # Commented out to allow best_model.pth to be committed
 *.pt
 *.h5
 *.joblib
