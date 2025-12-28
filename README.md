@@ -25,6 +25,7 @@ NeuroScan AI is a research-grade medical imaging classification system that leve
 ## ✨ Features
 
 - 🧠 **Deep Learning Model**: ConvNeXt-based architecture with TTA + Ensemble achieving 99.84% accuracy
+- 🤗 **Hugging Face Integration**: Automatic model download from [udayislam/alzheimer-mri-convnext-classifier](https://huggingface.co/udayislam/alzheimer-mri-convnext-classifier)
 - 🔍 **Explainable AI**: Grad-CAM++ heatmaps for model interpretability
 - 📊 **Comprehensive Analysis**: Probability distributions and confidence scores
 - 🏥 **Clinical Insights**: Risk assessment and clinical recommendations
@@ -45,6 +46,7 @@ NeuroScan AI is a research-grade medical imaging classification system that leve
 ### Technology Stack
 - **Backend**: Flask 3.0, Gunicorn
 - **Deep Learning**: PyTorch 2.1, timm
+- **Model Hub**: Hugging Face Hub
 - **Image Processing**: OpenCV, Albumentations, PIL
 - **Visualization**: Matplotlib, Seaborn, Plotly
 - **Explainability**: Grad-CAM++
@@ -77,9 +79,14 @@ NeuroScan AI is a research-grade medical imaging classification system that leve
  
    pip install --upgrade pip
    pip install -r requirements.txt
-   4. **Set up model files**
-   - Place your trained model (`best_model.pth`) in the `models/` directory
-   - Ensure `models/class_names.json` exists with class mappings
+   4. **Model Setup**
+   
+   The trained model is automatically downloaded from Hugging Face Hub on first run:
+   - **Repository**: [udayislam/alzheimer-mri-convnext-classifier](https://huggingface.co/udayislam/alzheimer-mri-convnext-classifier)
+   - **Model File**: `best_model.pth` (352MB)
+   - **Download Location**: `backend/models/`
+   
+   The model will be downloaded automatically when you first start the application. This is a one-time download that takes 30-60 seconds depending on your network speed.
 
 5. **Configure environment variables** (optional)
    # Create .env file

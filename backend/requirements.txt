@@ -9,6 +9,7 @@ Werkzeug==3.0.1
 torch==2.1.2
 torchvision==0.16.2
 timm==0.9.16
+huggingface_hub==0.20.3
 
 # Data Processing
 numpy==1.26.4

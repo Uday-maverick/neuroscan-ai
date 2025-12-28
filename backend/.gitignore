@@ -52,9 +52,9 @@ logs/
 .env.local
 .env.*.local
 
-# ML Models (if stored locally)
-# IMPORTANT: best_model.pth is needed for deployment
-# *.pth  # Commented out to allow best_model.pth to be committed
+# ML Models (downloaded from Hugging Face Hub)
+# Models are automatically downloaded from: udayislam/alzheimer-mri-convnext-classifier
+*.pth
 *.pt
 *.h5
 *.joblib

@@ -47,6 +47,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 try:
     from utils.model_loader import load_model, predict_image
+    from utils.model_downloader import ensure_model_exists
 except ImportError as e:
     print(f"Error: Cannot import model_loader - {e}")
     raise
@@ -124,6 +125,18 @@ def get_model():
     if _model is None:
         if not HAS_TORCH:
             raise RuntimeError("PyTorch is not available")
+        
+        # Ensure model is downloaded from Hugging Face if not present
+        try:
+            model_path = ensure_model_exists(
+                model_path=CONFIG['MODEL_PATH'],
+                repo_id="udayislam/alzheimer-mri-convnext-classifier"
+            )
+            print(f"Model ready at: {model_path}")
+        except Exception as e:
+            print(f"Error ensuring model exists: {e}")
+            raise
+        
         _model = load_model(
             model_path=CONFIG['MODEL_PATH'],
             model_name=CONFIG['MODEL_NAME'],
