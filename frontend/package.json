@@ -7,7 +7,11 @@
     "prebuild": "echo 'Building frontend...'",
     "start": "http-server -p 3000"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {},
   "devDependencies": {}
 }
+
 

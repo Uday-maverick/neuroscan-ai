@@ -2,21 +2,27 @@ services:
   # Backend API Service
   - type: web
     name: neuroscan-api
-    env: python
-    region: oregon  # Recommended for better performance
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn api:app --timeout 120 --workers 2 --threads 4 --worker-class gthread --bind 0.0.0.0:$PORT
+    env: docker  # Use Docker for more reliable builds
+    region: oregon
+    plan: free  # Change to 'starter' if you need more resources (2GB RAM)
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    # Add delay for model loading
+    healthCheckInterval: 30
+    healthCheckTimeout: 10
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.0
       - key: MODEL_PATH
         value: models/best_model.pth
       - key: SECRET_KEY
         generateValue: true
       - key: FLASK_ENV
         value: production
-    healthCheckPath: /api/health
+      - key: PORT
+        value: 10000
+      # Optional: Add if using cloud storage for model
+      # - key: MODEL_DOWNLOAD_URL
+      #   value: YOUR_MODEL_DOWNLOAD_URL_HERE
     disk:
       name: neuroscan-disk
-      mountPath: /opt/render/project/src/instance/uploads
+      mountPath: /opt/render/project/src/instance
       sizeGB: 2
