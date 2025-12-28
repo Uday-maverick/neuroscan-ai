@@ -11,8 +11,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy requirements and install Python dependencies system-wide
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir --no-warn-script-location -r requirements.txt
+COPY requirements.txt constraints.txt fix_opencv.sh ./
+RUN pip install --no-cache-dir --no-warn-script-location \
+    --constraint constraints.txt \
+    -r requirements.txt && \
+    chmod +x fix_opencv.sh && \
+    ./fix_opencv.sh
 
 # Production stage
 FROM python:3.11-slim

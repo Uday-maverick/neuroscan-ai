@@ -1,0 +1,3 @@
+# Constraints file to prevent opencv-python installation
+# This ensures only opencv-python-headless is used (no OpenGL dependencies)
+opencv-python==999.999.999  # Impossible version to block installation
