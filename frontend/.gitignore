@@ -70,5 +70,5 @@ jest/
 *.min.js
 *.min.css
 
-# API configuration (after build)
-js/config.js
+# API configuration (local overrides only)
+js/config.local.js
