@@ -29,13 +29,17 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     FLASK_ENV=production \
     MPLCONFIGDIR=/tmp/.matplotlib
 
-# Install runtime dependencies
+# Install runtime dependencies for OpenCV headless and Flask
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libglib2.0-0 \
     libsm6 \
     libxext6 \
     libxrender-dev \
     libgomp1 \
+    libgl1 \
+    libglib2.0-0 \
+    libfontconfig1 \
+    libice6 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
