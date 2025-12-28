@@ -12,8 +12,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Copy requirements and install Python dependencies system-wide
 WORKDIR /app
 COPY requirements.txt ./
+
+# Install all requirements (albumentations will pull in opencv-python)
+# Then force replace opencv-python with opencv-python-headless to avoid GUI dependencies
 RUN pip install --no-cache-dir --no-warn-script-location -r requirements.txt && \
-    pip uninstall -y opencv-python && \
+    pip uninstall -y opencv-python opencv-python-headless && \
     pip install --no-cache-dir opencv-python-headless==4.11.0.86
 
 # Production stage
