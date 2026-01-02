@@ -120,7 +120,11 @@ docker-compose up -d
 docker-compose logs -f
 
 # Stop services
-docker-compose down## 📁 Project Structure
+docker-compose down## 
+
+Download model from :  udayislam/alzheimer-mri-convnext-classifier
+
+📁 Project Structure
 
 ```
 neuroscan-ai/
@@ -134,7 +138,7 @@ neuroscan-ai/
 │
 ├── models/               # Model files
 │   ├── best_model.pth   # Trained model weights
-│   └── class_names.json # Class name mappings
+│   └── class_names.json # Class name mappings            Model Link : udayislam/alzheimer-mri-convnext-classifier
 │
 ├── utils/                # Utility modules
 │   ├── model_loader.py   # Model loading utilities
